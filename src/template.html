@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#182d2b">
+  <meta name="description" content="4 трона — мини-шахматы на поле 4×4. Займите центр королём и удержите его один ход. Играйте с компьютером или вдвоём.">
+  <title>4 трона — маленькое поле, большая игра</title>
+  <style>/* STYLES */</style>
+</head>
+<body>
+  <header class="header"><a class="brand" href="#" aria-label="4 трона — главная"><span class="brand-icon" aria-hidden="true">♔</span><span>4 трона<span class="brand-note">МИНИ-ШАХМАТЫ</span></span></a><button class="text-button" id="rules-button"><span class="question-mark">?</span> Как играть</button></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">ЧЕТЫРЕ КЛЕТКИ. ОДНА КОРОНА.</p><h1>Удержи свой трон.</h1><p class="intro-copy">Займи центр королём. Переживи ответный ход.</p></div><span class="edition">4 × 4 <span>поле возможностей</span></span></section>
+    <div class="game-layout">
+      <section class="board-column" aria-label="Игровое поле">
+        <div class="player-line" id="top-player"></div>
+        <div class="board-frame"><div class="rank-labels" aria-hidden="true" id="ranks"></div><div class="board" id="board" role="group" aria-label="Шахматная доска 4 на 4"></div><div class="file-labels" aria-hidden="true" id="files"></div></div>
+        <div class="player-line" id="bottom-player"></div>
+        <div class="board-tools"><button id="undo" class="tool-button"><span aria-hidden="true">↶</span> Назад</button><button id="flip" class="tool-button"><span aria-hidden="true">⇅</span> Повернуть</button><button id="new-game" class="tool-button new-game"><span aria-hidden="true">＋</span> Новая игра</button></div>
+        <p class="board-help" id="board-help">Выбери фигуру — точки покажут доступные ходы.</p>
+      </section>
+      <aside class="sidebar">
+        <section class="status-card" aria-live="polite" aria-atomic="true"><div class="status-top"><span class="status-dot" id="status-dot"></span><span id="status-label">БЕЛЫЕ НАЧИНАЮТ</span><span class="move-number" id="move-number">Ход 1</span></div><h2 id="status-title">Твой ход</h2><p id="status-description">Выбери фигуру и сделай первый ход.</p><div class="throne-track" id="throne-track"><span><i>1</i> Занять центр</span><b></b><span><i>2</i> Удержать трон</span></div><button id="play-again" class="primary-button" hidden>Сыграть ещё</button></section>
+        <section class="session-card"><div class="section-heading"><h3>Эта партия</h3><button id="settings" class="small-button">Настроить</button></div><div class="session-meta" id="session-meta"></div><div class="move-heading"><span>ХОДЫ</span><span id="moves-count">0</span></div><div class="move-list" id="move-list" aria-label="История ходов"><p class="empty-history">Первый ход — начало истории.</p></div></section>
+        <section class="rule-note"><div class="note-icon" aria-hidden="true">♔</div><div><h3>Центр решает</h3><p>Золотые отметки — четыре трона. Король должен остаться на одном из них без шаха после хода соперника.</p><button id="more-rules" class="inline-button">Все правила <span aria-hidden="true">↗</span></button></div></section>
+      </aside>
+    </div>
+  </main>
+  <footer><span>4 трона</span><p>Маленькое поле. Большая игра.</p><span class="save-note" id="save-note">Партия сохраняется автоматически</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="setup-dialog" aria-labelledby="setup-title"><form id="setup-form"><div class="dialog-top"><p class="eyebrow">НОВАЯ ПАРТИЯ</p><button type="button" data-close="setup-dialog" class="close-button" aria-label="Закрыть">×</button></div><h2 id="setup-title">Пора занять трон.</h2><p class="dialog-subtitle">Восемь фигур. Шестнадцать клеток. Твой ход.</p><label class="field-label" for="mode">С кем играем?</label><select name="mode" id="mode"><option value="bot">Против компьютера</option><option value="local">Вдвоём на одном устройстве</option></select><div id="bot-settings"><label class="field-label" for="color">Твой цвет</label><select name="color" id="color"><option value="w">Белые — первый ход</option><option value="b">Чёрные — второй ход</option></select><label class="field-label" for="level">Сила компьютера</label><select name="level" id="level"><option value="easy">Разминка</option><option value="normal" selected>Соперник</option><option value="hard">Тактик</option></select></div><p class="setup-note" id="setup-note">Текущая партия будет заменена новой.</p><button class="primary-button" type="submit">Начать игру <span aria-hidden="true">→</span></button></form></dialog>
+  <dialog id="rules-dialog" aria-labelledby="rules-title"><div class="dialog-top"><p class="eyebrow">ПРАВИЛА ИГРЫ</p><button type="button" data-close="rules-dialog" class="close-button" aria-label="Закрыть">×</button></div><h2 id="rules-title">Как взять трон</h2><ol class="rules-list"><li><strong>Восемь фигур на поле 4×4.</strong><p>У каждого — слон, король, конь и ладья. Все фигуры начинают на крайних горизонталях. Чёрные на a4–d4: слон, конь, король, ладья. Белые на a1–d1: ладья, король, конь, слон. Короли стоят на c4 и b1 рядом с ладьями. Расстановка симметрична при повороте на 180°. Выход в центр возможен с первого хода, но для победы трон нужно удержать. Белые начинают.</p></li><li><strong>Ходы фигур.</strong><p>Король ходит на одну клетку в любом направлении. Ладья ходит и берёт по горизонтали или вертикали, слон — по диагонали, но оба максимум на две клетки. Через фигуры они не перепрыгивают. Конь ходит обычной буквой «Г» и перепрыгивает фигуры. Короли не могут стоять рядом. Нельзя ходить под шах или оставлять своего короля под шахом.</p></li><li><strong>Займи центр и удержи его.</strong><p>Троны — b2, c2, b3, c3. Если в конце твоего хода король стоит на троне, соперник получает один ответный ход. Если после него король всё ещё на той же клетке без шаха — ты победил.</p><p>Шах срывает попытку. Сними шах законным ходом — если король остался в центре, отсчёт начнётся заново. Его можно защитить ходом другой фигуры.</p></li><li><strong>Остались только короли — ничья.</strong><p>Это правило действует сразу, даже если король уже занимает трон.</p></li></ol><details class="extra-rules"><summary>Мат и ничья</summary><p>Мат приносит победу. Пат, троекратное повторение одной позиции с тем же игроком на ходу и состоянием трона, а также 24 полухода без взятия и без нового занятия трона дают ничью. Полуход — один ход любого игрока. Счётчик обнуляется после взятия или хода короля на центральную клетку, в том числе с другого трона. Рокировки нет. Королей не берут.</p></details><button type="button" data-close="rules-dialog" class="primary-button">Понятно, играем</button></dialog>
+  <script id="engine-code">/* ENGINE */</script>
+  <script>/* APP */</script>
+</body>
+</html>
