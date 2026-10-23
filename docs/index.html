@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#182d2b">
+  <meta name="description" content="4 трона — мини-шахматы на поле 4×4. Займите центр королём и удержите его один ход. Играйте с компьютером или вдвоём.">
+  <title>4 трона — маленькое поле, большая игра</title>
+  <style>@charset "UTF-8";
+:root{--ink:#203732;--muted:#737b72;--paper:#f5f3eb;--line:#e1e3d9;--gold:#a57932;--green:#285247;--serif:Georgia,'Times New Roman',serif;--sans:Inter,'Segoe UI',Arial,sans-serif;color-scheme:light;font-family:var(--sans);color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.35}button,a,select,summary{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #b28a3b;outline-offset:4px}button{color:inherit}button[hidden],[hidden]{display:none!important}.header{max-width:1220px;margin:auto;padding:25px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--ink);font:600 29px var(--serif)}.brand-icon{display:grid;place-items:center;width:45px;height:45px;background:var(--ink);color:#e6d4a2;border-radius:12px;font-size:35px}.brand-note{display:block;font:600 8px var(--sans);letter-spacing:2.4px;margin-top:4px;color:var(--muted)}.text-button{background:none;border:0;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}.question-mark{border:1px solid #a7afa3;border-radius:50%;height:21px;width:21px;display:grid;place-items:center;font-size:12px}main{max-width:1140px;margin:auto;padding:36px 30px 30px}.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}.eyebrow{font-size:10px;letter-spacing:2px;font-weight:700;color:var(--gold);margin:0 0 12px}h1{font:normal clamp(34px,4vw,49px)/1.1 var(--serif);margin:0;letter-spacing:-1.4px}.intro-copy{font-size:14px;color:var(--muted);margin:13px 0 0;line-height:1.6}.edition{font:italic 38px var(--serif);color:#a3ac9c;text-align:right}.edition span{display:block;font:10px var(--sans);margin-top:5px;color:#929b8c;letter-spacing:.4px}.game-layout{display:grid;grid-template-columns:minmax(0,630px) minmax(275px,340px);gap:48px;justify-content:space-between}.board-column{min-width:0}.player-line{display:flex;align-items:center;gap:11px;min-height:55px;padding:0 8px 12px}.player-line#bottom-player{padding:14px 8px 0}.player-avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#e5e8dd;color:var(--ink);font-size:26px;border:1px solid #d2d7c9;line-height:1}.player-avatar.black{background:var(--ink);color:#eee5d2;border-color:var(--ink)}.player-name{font-size:13px;font-weight:600}.player-sub{font-size:10px;margin-top:4px;color:var(--muted)}.player-active{margin-left:auto;display:flex;align-items:center;gap:6px;color:var(--green);font-size:10px;font-weight:600}.player-active:before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}.captured{margin-left:auto;display:flex;gap:1px}.captured svg{width:22px;height:26px;opacity:.45}.board-frame{position:relative;border-radius:11px;background:#283e35;padding:14px 14px 28px 28px;box-shadow:0 17px 32px -18px #20372f60,0 2px 3px #20372f20}.board{display:grid;grid-template-columns:repeat(4,1fr);width:100%;aspect-ratio:1;overflow:hidden;border-radius:3px}.square{border:0;padding:0;position:relative;display:grid;place-items:center;background:#e9e5d5;aspect-ratio:1;min-width:0;isolation:isolate}.square.dark{background:#9eae97}.square:before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none}.square.last:before{background:#e4b95e33}.square.selected:before{background:#ddba5c66;box-shadow:inset 0 0 0 3px #a97d28}.square.check:before{background:#d8645d60;box-shadow:inset 0 0 0 3px #b85249}.square.throne:after{content:'';position:absolute;inset:8px;border:1px solid #a87c4159;border-radius:2px;pointer-events:none}.square.pending:after{border:2px solid #c59332;box-shadow:inset 0 0 20px #e3b55b44}.throne-mark{position:absolute;right:11px;bottom:6px;color:#8c682d;opacity:.6;font-size:19px;line-height:1;z-index:0;pointer-events:none}.square svg.piece{position:relative;z-index:2;width:75%;height:75%;filter:drop-shadow(0 3px 1px #23382e28);pointer-events:none;transition:transform .15s}.square.selected svg.piece{transform:translateY(-4px)}.square:hover:not(:disabled){filter:brightness(1.04)}.square:focus-visible{outline:3px solid #8d631f;outline-offset:-5px;z-index:5}.move-dot{position:absolute;z-index:3;width:19%;height:19%;border-radius:50%;background:#213c3560;pointer-events:none}.move-dot.capture{width:91%;height:91%;border:5px solid #314d4275;background:none}.rank-labels{position:absolute;left:0;top:14px;bottom:28px;display:flex;flex-direction:column;justify-content:space-around;width:28px;align-items:center;font-size:10px;color:#bcc4ad}.file-labels{position:absolute;left:28px;right:14px;bottom:0;height:28px;display:flex;justify-content:space-around;align-items:center;font-size:10px;color:#bcc4ad}.board-tools{margin-top:20px;display:flex;gap:8px;border-top:1px solid var(--line);padding-top:16px}.tool-button{border:1px solid #dce0d3;border-radius:8px;padding:11px 13px;background:#f9f9f3;display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:500}.tool-button:hover{background:#e8ecdf}.tool-button span{font-size:19px;line-height:1}.tool-button.new-game{margin-left:auto;background:var(--ink);color:#f3f0e4;border-color:var(--ink)}.tool-button.new-game:hover{background:#36574a}.board-help{text-align:center;color:#838a7e;font-size:11px;line-height:1.5;margin:15px 0 0}.sidebar{padding-top:4px;display:flex;flex-direction:column;gap:20px}.status-card{border-radius:13px;background:var(--ink);padding:25px;color:#f7f5ec;box-shadow:0 8px 18px -13px #182d2b;min-height:222px}.status-top{display:flex;align-items:center;gap:7px;font-size:8px;font-weight:700;letter-spacing:1.2px;color:#ccd3c3}.status-dot{height:6px;width:6px;background:#dccc9c;border-radius:50%;flex-shrink:0}.status-dot.thinking{animation:pulse 1s infinite}.move-number{margin-left:auto;color:#a4b3a7;white-space:nowrap;letter-spacing:.2px;font-weight:400}.status-card h2{font:normal 31px/1.15 var(--serif);margin:26px 0 10px;letter-spacing:-.4px}.status-card p{color:#c1cdbf;font-size:12px;line-height:1.7;margin:0;min-height:40px}.throne-track{display:flex;align-items:center;gap:8px;margin-top:24px;color:#c9d1be;white-space:nowrap;font-size:9px}.throne-track span{display:flex;align-items:center;gap:5px}.throne-track i{font-style:normal;display:grid;place-items:center;border:1px solid #5c7261;width:19px;height:19px;border-radius:50%;font-size:9px}.throne-track b{height:1px;min-width:10px;flex:1;background:#56705e}.throne-track.claimed span:first-child{color:#ebc880}.throne-track.claimed span:first-child i{background:#ebc880;color:#24372a;border-color:#ebc880}.status-card .primary-button{margin-top:18px;background:#d5bc81;color:#203732}.session-card{border:1px solid var(--line);border-radius:12px;background:#fafaf5;overflow:hidden;padding:20px}.section-heading{display:flex;justify-content:space-between;align-items:center}.section-heading h3{font-weight:600;font-size:13px;margin:0}.small-button{background:transparent;border:0;font-size:10px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:5px 0}.session-meta{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 20px}.meta-pill{border-radius:5px;background:#edf0e6;padding:6px 8px;font-size:10px;color:#5d6c5a}.move-heading{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:15px 0 10px;font-size:9px;letter-spacing:1px;color:#7c8774}.move-list{max-height:192px;overflow:auto;scrollbar-width:thin;scrollbar-color:#ced4c7 transparent;min-height:68px}.empty-history{font-size:11px;color:#92998b;padding:9px 0 12px}.move-row{display:grid;grid-template-columns:24px 1fr 1fr;gap:8px;font-size:11px;padding:9px 7px;border-radius:4px;font-variant-numeric:tabular-nums}.move-row:nth-child(odd){background:#eff1e9}.move-row>span:first-child{color:#939d8c}.move-row .latest{color:#245d4d;font-weight:700}.rule-note{display:flex;gap:11px;padding:0 7px}.note-icon{font-size:32px;color:#aa8850;line-height:1.1}.rule-note h3{font:normal 20px var(--serif);margin:0 0 8px}.rule-note p{font-size:11px;line-height:1.8;color:var(--muted);margin:0}.inline-button{border:0;border-bottom:1px solid #c2c9b6;padding:0 0 3px;margin-top:10px;background:none;font-size:11px}.inline-button span{margin-left:10px}footer{max-width:1140px;margin:0 auto;padding:23px 30px 25px;border-top:1px solid var(--line);display:flex;align-items:center;gap:18px;color:#929987}footer>span:first-child{font:19px var(--serif);color:#6c7b65}footer p{font-size:10px;margin:0}footer .save-note{font-size:9px;margin-left:auto}dialog{border:1px solid #e4e7da;border-radius:17px;background:#f8f8f0;color:var(--ink);width:min(480px,calc(100% - 28px));max-height:88dvh;padding:29px;box-shadow:0 25px 100px #142c3540}dialog::backdrop{background:#12271fc0;backdrop-filter:blur(4px)}.dialog-top{display:flex;justify-content:space-between;align-items:center}.dialog-top .eyebrow{margin:0}.close-button{border:0;background:none;font-size:26px;line-height:1;padding:0 3px;color:#7d8973}.dialog-top+h2,dialog form h2{font:normal 33px var(--serif);margin:22px 0 10px}.dialog-subtitle{font-size:12px;color:var(--muted);line-height:1.7;margin:0 0 25px}.field-label{display:block;font-size:12px;margin:20px 0 8px;font-weight:600}select{width:100%;padding:13px 11px;border-radius:7px;border:1px solid #d5dccb;color:var(--ink);background:#fffef8;font-size:13px;min-height:44px}.primary-button{width:100%;padding:14px;border:0;border-radius:8px;background:var(--ink);color:#f9f7ee;font-weight:600;font-size:13px}.primary-button:hover{filter:brightness(1.13)}.primary-button span{margin-left:12px}.setup-note{font-size:11px;color:#8e9782;margin:22px 0 15px;line-height:1.6}.rules-list{list-style:none;counter-reset:rule;padding:0;margin:24px 0}.rules-list li{counter-increment:rule;position:relative;padding-left:34px;margin:0 0 22px}.rules-list li:before{content:counter(rule);position:absolute;left:0;top:-2px;display:grid;place-items:center;width:23px;height:23px;background:#e8ecdf;border-radius:50%;font:13px var(--serif)}.rules-list strong{font-size:13px}.rules-list p,.extra-rules p{font-size:12px;line-height:1.8;color:#6d7965;margin:7px 0}.extra-rules{border-top:1px solid var(--line);padding:15px 0;margin-bottom:12px}.extra-rules summary{font-size:11px;cursor:pointer;line-height:1.6}.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,10px);padding:13px 20px;border-radius:9px;color:#fffef4;background:#263c32;box-shadow:0 6px 30px #20372f30;font-size:12px;line-height:1.5;max-width:calc(100% - 32px);width:max-content;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}@keyframes pulse{50%{opacity:.3}}@media(min-width:1100px){.board-frame{max-width:570px}.board-column{max-width:570px}.game-layout{grid-template-columns:minmax(0,570px) minmax(275px,340px)}}@media(max-width:850px){.header{padding:20px 25px}main{padding:28px 22px}.game-layout{gap:25px;grid-template-columns:minmax(0,1fr) 280px}.edition{display:none}.status-card{padding:22px 20px}.status-top{font-size:7px}.status-card h2{font-size:28px}.tool-button{padding:10px 9px;font-size:11px;gap:4px}.tool-button span{font-size:17px}.sidebar{gap:17px}.session-card{padding:18px}.throne-track{font-size:8px;gap:5px}.throne-track i{width:16px;height:16px}.throne-mark{font-size:15px;right:8px;bottom:4px}.square.throne:after{inset:6px}}@media(max-width:680px){.header{padding:16px 20px}.brand{font-size:25px}.brand-icon{height:39px;width:39px;font-size:30px}.brand-note{font-size:7px}.text-button{font-size:11px}main{padding:25px 16px 23px;max-width:520px}.intro{margin-bottom:20px}.eyebrow{font-size:8px;letter-spacing:1.5px;margin-bottom:10px}h1{font-size:36px}.intro-copy{font-size:12px;margin-top:9px}.game-layout{display:flex;flex-direction:column;gap:24px}.board-column{display:contents}.sidebar{display:contents}.status-card{order:0;min-height:auto;padding:17px 20px;border-radius:10px}.status-card h2{font-size:26px;margin:13px 0 6px}.status-card p{font-size:11px;min-height:0}.status-card .status-top{font-size:8px}.throne-track{display:none}.player-line{padding:0 5px;min-height:38px;order:1;margin-top:-7px}.board-frame{order:2;margin-top:-11px}.player-line#bottom-player{order:3;margin-top:-12px;padding:0 5px}.board-tools{order:4;margin-top:-8px;padding-top:13px}.tool-button{padding:12px 14px;font-size:12px}.board-help{order:5;margin:-13px 0 0}.session-card{order:6;padding:19px}.rule-note{order:7;padding:0 7px}.move-list{max-height:150px}.session-meta{margin-bottom:15px}.rule-note p{font-size:12px}footer{padding:20px;flex-wrap:wrap;gap:10px;max-width:520px}footer .save-note{width:100%;margin:0}.square.throne:after{inset:8px}.throne-mark{font-size:18px;right:10px;bottom:6px}.captured svg{width:19px;height:22px}.move-number{font-size:9px}}@media(max-width:360px){h1{font-size:32px}.tool-button{font-size:10px;padding:11px 9px}.throne-mark{font-size:14px}.brand{font-size:23px}.text-button{font-size:10px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+  <header class="header"><a class="brand" href="#" aria-label="4 трона — главная"><span class="brand-icon" aria-hidden="true">♔</span><span>4 трона<span class="brand-note">МИНИ-ШАХМАТЫ</span></span></a><button class="text-button" id="rules-button"><span class="question-mark">?</span> Как играть</button></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">ЧЕТЫРЕ КЛЕТКИ. ОДНА КОРОНА.</p><h1>Удержи свой трон.</h1><p class="intro-copy">Займи центр королём. Переживи ответный ход.</p></div><span class="edition">4 × 4 <span>поле возможностей</span></span></section>
+    <div class="game-layout">
+      <section class="board-column" aria-label="Игровое поле">
+        <div class="player-line" id="top-player"></div>
+        <div class="board-frame"><div class="rank-labels" aria-hidden="true" id="ranks"></div><div class="board" id="board" role="group" aria-label="Шахматная доска 4 на 4"></div><div class="file-labels" aria-hidden="true" id="files"></div></div>
+        <div class="player-line" id="bottom-player"></div>
+        <div class="board-tools"><button id="undo" class="tool-button"><span aria-hidden="true">↶</span> Назад</button><button id="flip" class="tool-button"><span aria-hidden="true">⇅</span> Повернуть</button><button id="new-game" class="tool-button new-game"><span aria-hidden="true">＋</span> Новая игра</button></div>
+        <p class="board-help" id="board-help">Выбери фигуру — точки покажут доступные ходы.</p>
+      </section>
+      <aside class="sidebar">
+        <section class="status-card" aria-live="polite" aria-atomic="true"><div class="status-top"><span class="status-dot" id="status-dot"></span><span id="status-label">БЕЛЫЕ НАЧИНАЮТ</span><span class="move-number" id="move-number">Ход 1</span></div><h2 id="status-title">Твой ход</h2><p id="status-description">Выбери фигуру и сделай первый ход.</p><div class="throne-track" id="throne-track"><span><i>1</i> Занять центр</span><b></b><span><i>2</i> Удержать трон</span></div><button id="play-again" class="primary-button" hidden>Сыграть ещё</button></section>
+        <section class="session-card"><div class="section-heading"><h3>Эта партия</h3><button id="settings" class="small-button">Настроить</button></div><div class="session-meta" id="session-meta"></div><div class="move-heading"><span>ХОДЫ</span><span id="moves-count">0</span></div><div class="move-list" id="move-list" aria-label="История ходов"><p class="empty-history">Первый ход — начало истории.</p></div></section>
+        <section class="rule-note"><div class="note-icon" aria-hidden="true">♔</div><div><h3>Центр решает</h3><p>Золотые отметки — четыре трона. Король должен остаться на одном из них без шаха после хода соперника.</p><button id="more-rules" class="inline-button">Все правила <span aria-hidden="true">↗</span></button></div></section>
+      </aside>
+    </div>
+  </main>
+  <footer><span>4 трона</span><p>Маленькое поле. Большая игра.</p><span class="save-note" id="save-note">Партия сохраняется автоматически</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="setup-dialog" aria-labelledby="setup-title"><form id="setup-form"><div class="dialog-top"><p class="eyebrow">НОВАЯ ПАРТИЯ</p><button type="button" data-close="setup-dialog" class="close-button" aria-label="Закрыть">×</button></div><h2 id="setup-title">Пора занять трон.</h2><p class="dialog-subtitle">Восемь фигур. Шестнадцать клеток. Твой ход.</p><label class="field-label" for="mode">С кем играем?</label><select name="mode" id="mode"><option value="bot">Против компьютера</option><option value="local">Вдвоём на одном устройстве</option></select><div id="bot-settings"><label class="field-label" for="color">Твой цвет</label><select name="color" id="color"><option value="w">Белые — первый ход</option><option value="b">Чёрные — второй ход</option></select><label class="field-label" for="level">Сила компьютера</label><select name="level" id="level"><option value="easy">Разминка</option><option value="normal" selected>Соперник</option><option value="hard">Тактик</option></select></div><p class="setup-note" id="setup-note">Текущая партия будет заменена новой.</p><button class="primary-button" type="submit">Начать игру <span aria-hidden="true">→</span></button></form></dialog>
+  <dialog id="rules-dialog" aria-labelledby="rules-title"><div class="dialog-top"><p class="eyebrow">ПРАВИЛА ИГРЫ</p><button type="button" data-close="rules-dialog" class="close-button" aria-label="Закрыть">×</button></div><h2 id="rules-title">Как взять трон</h2><ol class="rules-list"><li><strong>Восемь фигур на поле 4×4.</strong><p>У каждого — слон, король, конь и ладья. Все фигуры начинают на крайних горизонталях. Чёрные на a4–d4: слон, конь, король, ладья. Белые на a1–d1: ладья, король, конь, слон. Короли стоят на c4 и b1 рядом с ладьями. Расстановка симметрична при повороте на 180°. Выход в центр возможен с первого хода, но для победы трон нужно удержать. Белые начинают.</p></li><li><strong>Ходы фигур.</strong><p>Король ходит на одну клетку в любом направлении. Ладья ходит и берёт по горизонтали или вертикали, слон — по диагонали, но оба максимум на две клетки. Через фигуры они не перепрыгивают. Конь ходит обычной буквой «Г» и перепрыгивает фигуры. Короли не могут стоять рядом. Нельзя ходить под шах или оставлять своего короля под шахом.</p></li><li><strong>Займи центр и удержи его.</strong><p>Троны — b2, c2, b3, c3. Если в конце твоего хода король стоит на троне, соперник получает один ответный ход. Если после него король всё ещё на той же клетке без шаха — ты победил.</p><p>Шах срывает попытку. Сними шах законным ходом — если король остался в центре, отсчёт начнётся заново. Его можно защитить ходом другой фигуры.</p></li><li><strong>Остались только короли — ничья.</strong><p>Это правило действует сразу, даже если король уже занимает трон.</p></li></ol><details class="extra-rules"><summary>Мат и ничья</summary><p>Мат приносит победу. Пат, троекратное повторение одной позиции с тем же игроком на ходу и состоянием трона, а также 24 полухода без взятия и без нового занятия трона дают ничью. Полуход — один ход любого игрока. Счётчик обнуляется после взятия или хода короля на центральную клетку, в том числе с другого трона. Рокировки нет. Королей не берут.</p></details><button type="button" data-close="rules-dialog" class="primary-button">Понятно, играем</button></dialog>
+  <script id="engine-code">(function(root){
+  'use strict';
+  const SIZE=4, CENTER=[5,6,9,10], OTHER=c=>c==='w'?'b':'w', RANGE={B:2,R:2,K:1,N:1};
+  const DIRS={B:[[-1,-1],[-1,1],[1,-1],[1,1]],R:[[-1,0],[1,0],[0,-1],[0,1]],K:[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]],N:[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]};
+  const inside=(r,c)=>r>=0&&r<4&&c>=0&&c<4;
+  const coord=i=>'abcd'[i%4]+(4-Math.floor(i/4));
+  const at=s=>(4-Number(s[1]))*4+'abcd'.indexOf(s[0]);
+  const key=s=>s.board.map(x=>x||'..').join('')+s.turn+(s.pending?s.pending.color+s.pending.square:'-');
+  function initial(){const s={board:['bB','bN','bK','bR',null,null,null,null,null,null,null,null,'wR','wK','wN','wB'],turn:'w',pending:null,result:null,ply:0,quiet:0,counts:{}};s.counts[key(s)]=1;return s;}
+  function attacked(board,sq,by){
+    if(sq<0)return true;
+    for(let i=0;i<16;i++){
+      const p=board[i];if(!p||p[0]!==by)continue;
+      const r=i>>2,c=i%4,t=p[1];
+      for(const [dr,dc]of DIRS[t]){
+        for(let step=1,nr=r+dr,nc=c+dc;step<=RANGE[t]&&inside(nr,nc);step++,nr+=dr,nc+=dc){
+          const j=nr*4+nc;if(j===sq)return true;
+          if(board[j])break;
+        }
+      }
+    }
+    return false;
+  }
+  const inCheck=(board,color)=>attacked(board,board.indexOf(color+'K'),OTHER(color));
+  function legalMoves(s,color=s.turn){
+    const moves=[];
+    for(let i=0;i<16;i++){
+      const p=s.board[i];if(!p||p[0]!==color)continue;
+      for(const [dr,dc]of DIRS[p[1]]){
+        for(let step=1,r=(i>>2)+dr,c=i%4+dc;step<=RANGE[p[1]]&&inside(r,c);step++,r+=dr,c+=dc){
+          const j=r*4+c,target=s.board[j];
+          if(target&&(target[0]===color||target[1]==='K'))break;
+          const b=s.board.slice();b[j]=p;b[i]=null;
+          if(!inCheck(b,color))moves.push({from:i,to:j});
+          if(target)break;
+        }
+      }
+    }
+    return moves;
+  }
+  function advance(s,m,validate=true){
+    if(s.result)throw new Error('Партия завершена');
+    if(validate&&!legalMoves(s).some(x=>x.from===m.from&&x.to===m.to))throw new Error('Недопустимый ход');
+    const board=s.board.slice(),color=s.turn,piece=board[m.from],captured=board[m.to];
+    board[m.to]=piece;board[m.from]=null;
+    // A fresh occupation means the king moves onto a throne, including a
+    // different throne. Staying in place while another piece moves is not new.
+    const occupiedThrone=piece[1]==='K'&&CENTER.includes(m.to);
+    const quiet=captured||occupiedThrone?0:(s.quiet||0)+1;
+    const n={board,turn:OTHER(color),pending:null,result:null,ply:s.ply+1,quiet,counts:{...s.counts},lastMove:{...m,piece,captured}};
+    // Bare kings take priority, including a capture on the response to a throne claim.
+    if(board.filter(Boolean).every(p=>p[1]==='K'))n.result={winner:null,reason:'kings'};
+    else if(s.pending&&s.pending.color===n.turn&&board[s.pending.square]===n.turn+'K'&&CENTER.includes(s.pending.square)&&!inCheck(board,n.turn))n.result={winner:n.turn,reason:'throne'};
+    if(!n.result){
+      const king=board.indexOf(color+'K');
+      if(CENTER.includes(king)&&!inCheck(board,color))n.pending={color,square:king};
+      if(!legalMoves(n).length)n.result=inCheck(board,n.turn)?{winner:color,reason:'mate'}:{winner:null,reason:'stalemate'};
+    }
+    const k=key(n);n.counts[k]=(n.counts[k]||0)+1;
+    if(!n.result&&n.counts[k]>=3)n.result={winner:null,reason:'repetition'};
+    if(!n.result&&n.quiet>=24)n.result={winner:null,reason:'inactivity'};
+    return n;
+  }
+  function evaluate(s){
+    if(s.result)return s.result.winner?(s.result.winner===s.turn?100000:-100000):0;
+    let score=0;
+    const val={B:315,N:305,R:480,K:0};
+    for(let i=0;i<16;i++){
+      const p=s.board[i];if(!p)continue;
+      let v=val[p[1]];
+      if(CENTER.includes(i))v+=p[1]==='K'?130:20;
+      if(p[1]==='K'&&inCheck(s.board,p[0]))v-=40;
+      score+=p[0]==='w'?v:-v;
+    }
+    if(s.pending)score+=s.pending.color==='w'?580:-580;
+    return s.turn==='w'?score:-score;
+  }
+  function chooseMove(s,options={}){
+    const all=legalMoves(s);if(s.result||!all.length)return null;
+    const deadline=Date.now()+(options.ms||350),maxDepth=options.depth||5;
+    let nodes=0,best=all[0],completedDepth=0;
+    const order=(moves,state)=>moves.sort((a,b)=>priority(b,state)-priority(a,state));
+    const priority=(m,state)=>(state.board[m.to]?({R:500,B:320,N:300,K:0}[state.board[m.to][1]]):0)+(state.board[m.from][1]==='K'&&CENTER.includes(m.to)?600:0);
+    function search(state,depth,alpha,beta){
+      if((++nodes&127)===0&&Date.now()>deadline)throw new Error('timeout');
+      if(state.result)return evaluate(state)+(state.result.winner?(state.result.winner===state.turn?depth:-depth):0);
+      if(depth<=0)return evaluate(state);
+      const moves=order(legalMoves(state),state);let value=-Infinity;
+      if(!moves.length)return inCheck(state.board,state.turn)?-100000:0;
+      for(const m of moves){const v=-search(advance(state,m,false),depth-1,-beta,-alpha);value=Math.max(value,v);alpha=Math.max(alpha,v);if(alpha>=beta)break;}
+      return value;
+    }
+    for(let depth=1;depth<=maxDepth;depth++){
+      let iterationBest=best,bestScore=-Infinity;
+      try{
+        const moves=order(all.slice(),s);moves.sort((a,b)=>(b.from===best.from&&b.to===best.to?1:0)-(a.from===best.from&&a.to===best.to?1:0));
+        for(const m of moves){const v=-search(advance(s,m,false),depth-1,-Infinity,-bestScore);if(v>bestScore){bestScore=v;iterationBest=m;}}
+        best=iterationBest;completedDepth=depth;
+        if(Math.abs(bestScore)>90000||Date.now()>deadline)break;
+      }catch(e){if(e.message!=='timeout')throw e;break;}
+    }
+    return {...best,depth:completedDepth,nodes};
+  }
+  const api={initial,attacked,inCheck,legalMoves,advance,chooseMove,coord,at,key,CENTER,OTHER};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.FourThrones=api;
+})(typeof self!=='undefined'?self:this);
+</script>
+  <script>(() => {
+  'use strict';
+  const E=FourThrones,$=id=>document.getElementById(id),STORE='four-thrones-v9';
+  const names={K:'король',B:'слон',N:'конь',R:'ладья'},short={K:'Кр',B:'С',N:'К',R:'Л'},colors={w:'Белые',b:'Чёрные'},levels={easy:'Разминка',normal:'Соперник',hard:'Тактик'};
+  const shapes={
+    K:'<path d="M32 7v14m-6-8h12" fill="none" stroke-linecap="round"/><path d="M24 24c-9-7-15 2-9 11l8 8h18l8-8c6-9 0-18-9-11-2-9-14-9-16 0Z"/><path d="M23 42h18l3 10H20Z"/><path d="M19 52h26l3 5H16Z"/><path d="M24 32h16" fill="none"/>',
+    R:'<path d="M15 10h8v8h6v-8h6v8h6v-8h8v15l-7 5 2 22H20l2-22-7-5Z"/><path d="M21 29h22M20 47h24" fill="none"/><path d="M18 52h28l3 5H15Z"/>',
+    B:'<circle cx="32" cy="8" r="3"/><path d="M32 12c-7 6-14 13-12 20 1 5 6 8 12 8s11-3 12-8c2-7-5-14-12-20Z"/><path d="m32 18-5 10" fill="none" stroke-linecap="round"/><path d="M26 40h12l5 12H21Z"/><path d="M19 52h26l4 5H15Z"/>',
+    N:'<path d="m25 14 2-8 7 6c14 2 18 13 17 27l-7 13H19l1-9 11-11-9 2-9-6 6-10Z"/><path d="m28 17 3 5-9 7M35 18c8 7 7 16 1 23" fill="none" stroke-linecap="round"/><circle cx="25" cy="22" r="1.6" fill="currentColor" stroke="none"/><path d="M18 52h28l3 5H15Z"/>'
+  };
+  function svg(p,cls='piece'){const white=p[0]==='w';return '<svg class="'+cls+'" viewBox="0 0 64 64" aria-hidden="true" fill="'+(white?'#fff8e5':'#253a33')+'" stroke="'+(white?'#596052':'#e0e3d0')+'" style="color:'+(white?'#596052':'#e0e3d0')+'" stroke-width="1.7" stroke-linejoin="round">'+shapes[p[1]]+'</svg>';}
+  let state=E.initial(),history=[],records=[],config={mode:'bot',color:'w',level:'normal'},flipped=false,selected=null,thinking=false,worker=null,timer=null,job=0,toastTimer=null,storageWorks=true;
+  function validState(s){return s&&Array.isArray(s.board)&&s.board.length===16&&s.board.every(p=>p===null||/^[wb][KBNR]$/.test(p))&&s.board.filter(p=>p==='wK').length===1&&s.board.filter(p=>p==='bK').length===1&&['w','b'].includes(s.turn)&&s.counts&&Number.isInteger(s.ply)&&Number.isInteger(s.quiet)&&s.quiet>=0;}
+  try{const saved=JSON.parse(localStorage.getItem(STORE));if(saved&&saved.version===9&&validState(saved.state)&&Array.isArray(saved.history)&&saved.history.every(validState)&&Array.isArray(saved.records)&&['bot','local'].includes(saved.config.mode)&&['w','b'].includes(saved.config.color)&&levels[saved.config.level]){state=saved.state;history=saved.history;records=saved.records;config=saved.config;flipped=!!saved.flipped;}}catch(_){/* A blocked storage area or old save does not block play. */}
+  function persist(){try{localStorage.setItem(STORE,JSON.stringify({version:9,state,history,records,config,flipped}));}catch(_){storageWorks=false;$('save-note').textContent='Партия хранится до закрытия страницы';}}
+  function toast(message){clearTimeout(toastTimer);$('toast').textContent=message;$('toast').classList.add('show');toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2500);}
+  const humanTurn=()=>config.mode==='local'||state.turn===config.color;
+  function renderBoard(){
+    const focused=document.activeElement?.dataset?.square,moves=selected===null?[]:E.legalMoves(state).filter(m=>m.from===selected),indices=Array.from({length:16},(_,i)=>flipped?15-i:i);
+    $('board').innerHTML=indices.map(i=>{const p=state.board[i],legal=moves.find(m=>m.to===i),central=E.CENTER.includes(i);let cls='square'+(((i>>2)+i%4)%2?' dark':'')+(selected===i?' selected':'')+(central?' throne':'')+(state.pending?.square===i?' pending':'')+((state.lastMove?.from===i||state.lastMove?.to===i)?' last':'')+(p?.[1]==='K'&&E.inCheck(state.board,p[0])?' check':'');return '<button type="button" class="'+cls+'" data-square="'+i+'" aria-pressed="'+(selected===i)+'" aria-label="'+E.coord(i)+(p?', '+(p[0]==='w'?'белый ':'чёрный ')+names[p[1]]:', пусто')+(central?', трон':'')+(legal?', доступный ход':'')+'">'+(central?'<span class="throne-mark" aria-hidden="true">♔</span>':'')+(p?svg(p):'')+(legal?'<span class="move-dot'+(p?' capture':'')+'"></span>':'')+'</button>';}).join('');
+    $('ranks').innerHTML=(flipped?['1','2','3','4']:['4','3','2','1']).map(x=>'<span>'+x+'</span>').join('');$('files').innerHTML=(flipped?['d','c','b','a']:['a','b','c','d']).map(x=>'<span>'+x+'</span>').join('');
+    if(focused!==undefined)$('board').querySelector('[data-square="'+focused+'"]').focus({preventScroll:true});
+  }
+  function player(color){
+    const bot=config.mode==='bot'&&color!==config.color,name=bot?'Компьютер':config.mode==='local'?colors[color]:'Ты',initial=E.initial().board.filter(p=>p&&p[0]===E.OTHER(color)),captured=initial.filter(p=>!state.board.includes(p));
+    return '<span class="player-avatar '+(color==='b'?'black':'')+'" aria-hidden="true">♚</span><div><div class="player-name">'+name+'</div><div class="player-sub">'+colors[color]+(bot?' · '+levels[config.level]:'')+'</div></div>'+(captured.length?'<span class="captured" aria-label="Взятые фигуры: '+captured.map(p=>names[p[1]]).join(', ')+'">'+captured.map(p=>svg(p,'mini-piece')).join('')+'</span>':'')+(!state.result&&state.turn===color?'<span class="player-active">'+(thinking?'Думает':'Ходят')+'</span>':'');
+  }
+  function renderStatus(){
+    let title,description,label=colors[state.turn].toUpperCase()+' ХОДЯТ';
+    const check=E.inCheck(state.board,state.turn);
+    if(state.result){const r=state.result;label='ПАРТИЯ ЗАВЕРШЕНА';title=r.winner?colors[r.winner]+' победили':'Ничья';description={throne:'Трон удержан: ответный ход прошёл, король остался в центре без шаха.',mate:'Мат. У короля нет законного способа уйти от шаха.',kings:'На доске остались только короли. По правилам это ничья.',stalemate:'Пат: шаха нет, но ни одного допустимого хода не осталось.',repetition:'Позиция повторилась три раза с тем же игроком на ходу.',inactivity:'Прошло 24 полухода без взятия и без нового занятия трона королём.'}[r.reason];}
+    else if(state.pending){label='ТРОН ПОД КОНТРОЛЕМ';title='Один ход до победы';description=colors[state.pending.color]+' заняли '+E.coord(state.pending.square)+'. '+(thinking?'Компьютер ищет ответ.':(humanTurn()&&config.mode==='bot'?'Дай':'Нужно дать')+' шах, чтобы сорвать захват.')+(check?' Твой король под шахом.':'');}
+    else if(check){title='Король под шахом';description='Защити короля: уйди, перекрой атаку или возьми атакующую фигуру.';}
+    else{title=thinking?'Соперник думает…':config.mode==='local'?'Ход '+(state.turn==='w'?'белых':'чёрных'):'Твой ход';description=thinking?'Ищет путь к центру. И проверяет твои планы.':state.ply===0?'Выбери фигуру. Подготовь королю путь к одному из четырёх тронов.':'Открой путь к центру и поддержи короля остальными фигурами.';}
+    $('status-label').textContent=label;$('status-title').textContent=title;$('status-description').textContent=description;$('move-number').textContent='Ход '+(Math.floor(state.ply/2)+1);$('status-dot').className='status-dot'+(thinking?' thinking':'');$('play-again').hidden=!state.result;$('throne-track').hidden=!!state.result;$('throne-track').classList.toggle('claimed',!!state.pending);
+    $('undo').disabled=!history.length||(config.mode==='bot'&&!history.some(s=>s.turn===config.color));
+    $('board-help').textContent=state.result?'Партия завершена. Сыграй ещё или верни ход.':thinking?'Компьютер выбирает ход…':selected!==null?names[state.board[selected][1]][0].toUpperCase()+names[state.board[selected][1]].slice(1)+': выбери отмеченную клетку.':'Выбери фигуру — точки покажут доступные ходы.';
+  }
+  function renderHistory(){
+    $('session-meta').innerHTML='<span class="meta-pill">'+(config.mode==='local'?'Двое за одной доской':'Ты '+(config.color==='w'?'белыми':'чёрными'))+'</span><span class="meta-pill">'+(config.mode==='local'?'По очереди':levels[config.level])+'</span>';
+    $('moves-count').textContent=records.length;
+    let html='';for(let i=0;i<records.length;i+=2)html+='<div class="move-row"><span>'+(i/2+1)+'.</span><span class="'+(i===records.length-1?'latest':'')+'">'+records[i]+'</span><span class="'+(i+1===records.length-1?'latest':'')+'">'+(records[i+1]||'—')+'</span></div>';
+    const list=$('move-list');list.innerHTML=html||'<p class="empty-history">Первый ход — начало истории.</p>';list.scrollTop=list.scrollHeight;
+  }
+  function render(){renderBoard();$('top-player').innerHTML=player(flipped?'w':'b');$('bottom-player').innerHTML=player(flipped?'b':'w');renderStatus();renderHistory();}
+  function stopBot(){job++;clearTimeout(timer);if(worker){worker.terminate();worker=null;}thinking=false;}
+  function play(move){
+    const old=state;let next;try{next=E.advance(state,move);}catch(_){toast('Этот ход недоступен.');return;}
+    history.push(old);const p=old.board[move.from];records.push(short[p[1]]+' '+E.coord(move.from)+(old.board[move.to]?'×':'–')+E.coord(move.to)+(next.result?.reason==='mate'?'#':E.inCheck(next.board,next.turn)?'+':''));
+    state=next;selected=null;persist();render();scheduleBot();
+  }
+  function scheduleBot(){
+    if(state.result||config.mode!=='bot'||humanTurn()){thinking=false;renderStatus();return;}
+    thinking=true;render();const id=++job,opts={easy:{depth:2,ms:120},normal:{depth:5,ms:400},hard:{depth:7,ms:1000}}[config.level];
+    timer=setTimeout(()=>{
+      if(id!==job)return;
+      const complete=m=>{if(id!==job)return;thinking=false;if(worker){worker.terminate();worker=null;}if(m)play(m);else render();};
+      const fallback=()=>{if(id!==job)return;complete(E.chooseMove(state,{...opts,ms:Math.min(opts.ms,200)}));};
+      try{const blob=new Blob([$('engine-code').textContent,'\nself.onmessage=function(e){self.postMessage(FourThrones.chooseMove(e.data.state,e.data.options));};'],{type:'text/javascript'}),url=URL.createObjectURL(blob);worker=new Worker(url);URL.revokeObjectURL(url);worker.onmessage=e=>complete(e.data);worker.onerror=()=>{if(worker){worker.terminate();worker=null;}fallback();};worker.postMessage({state,options:opts});}catch(_){fallback();}
+    },350);
+  }
+  $('board').addEventListener('click',e=>{
+    const button=e.target.closest('[data-square]');if(!button)return;const i=Number(button.dataset.square);
+    if(state.result){toast('Партия закончена. Начни новую или верни ход.');return;}if(thinking||!humanTurn()){toast('Сейчас ход компьютера.');return;}
+    const p=state.board[i];if(selected===i){selected=null;renderBoard();renderStatus();return;}
+    if(selected!==null){const m=E.legalMoves(state).find(x=>x.from===selected&&x.to===i);if(m){play(m);return;}}
+    if(p&&p[0]===state.turn){selected=i;renderBoard();renderStatus();if(!E.legalMoves(state).some(m=>m.from===i))toast('У этой фигуры сейчас нет допустимых ходов.');}
+    else{if(selected!==null)toast('Сюда нельзя: выбери клетку с отметкой.');else toast('Выбери '+(state.turn==='w'?'белую':'чёрную')+' фигуру.');}
+  });
+  $('board').addEventListener('keydown',e=>{const i=Number(e.target.dataset.square);if(!Number.isInteger(i))return;let screen=flipped?15-i:i,delta={ArrowLeft:-1,ArrowRight:1,ArrowUp:-4,ArrowDown:4}[e.key];if(delta!==undefined){e.preventDefault();const next=screen+delta;if(next>=0&&next<16&&(Math.abs(delta)===4||(next>>2)===(screen>>2)))$('board').querySelector('[data-square="'+(flipped?15-next:next)+'"]').focus();}if(e.key==='Escape'){selected=null;render();}});
+  $('undo').onclick=()=>{if(!history.length)return;stopBot();state=history.pop();records.pop();if(config.mode==='bot'&&state.turn!==config.color&&history.length){state=history.pop();records.pop();}selected=null;persist();render();scheduleBot();};
+  $('flip').onclick=()=>{flipped=!flipped;persist();render();};
+  function setup(){ $('mode').value=config.mode;$('color').value=config.color;$('level').value=config.level;$('bot-settings').hidden=config.mode==='local';$('setup-note').textContent=state.ply&&!state.result?'Текущая партия будет заменена новой.':'Белые начинают. Ходы под шах запрещены.';$('setup-dialog').showModal();}
+  $('new-game').onclick=setup;$('settings').onclick=setup;$('play-again').onclick=setup;
+  $('mode').onchange=()=>{$('bot-settings').hidden=$('mode').value==='local';};
+  $('setup-form').onsubmit=e=>{e.preventDefault();stopBot();config={mode:$('mode').value,color:$('color').value,level:$('level').value};state=E.initial();history=[];records=[];selected=null;flipped=config.mode==='bot'&&config.color==='b';$('setup-dialog').close();persist();render();scheduleBot();};
+  $('rules-button').onclick=$('more-rules').onclick=()=>$('rules-dialog').showModal();
+  document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
+  document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
+  render();scheduleBot();
+})();
+</script>
+</body>
+</html>
